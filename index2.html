@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nx.SelvaFlix</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(120deg, #0f0f0f, #1c1c1c);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 15, 0.95);
+            padding: 15px 30px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #e50914;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            position: relative;
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background: #e50914;
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(120deg, rgba(15, 15, 15, 0.8), rgba(20, 20, 20, 0.8)), url('back.jpg') center/cover;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin: 0;
+            color: #e50914;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #aaa;
+        }
+
+        .btn-primary {
+            background: #e50914;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.5);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background: #b00712;
+            transform: scale(1.05);
+        }
+
+        /* Content Section */
+        section {
+            display: none;
+            padding: 60px 30px;
+            margin-top: 100px;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #e50914;
+            margin-bottom: 20px;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .movie {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .movie img {
+            width: 100%;
+            height: auto;
+        }
+
+        .movie:hover {
+            transform: scale(1.05);
+        }
+
+        .movie h3 {
+            text-align: center;
+            padding: 10px;
+            font-size: 1.2em;
+        }
+         /* Modal Styles */
+         .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal iframe {
+            width: 80%;
+            height: 60%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .modal .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2em;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* AI Glow Effect */
+        .glow {
+            animation: glow 1.5s infinite;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #ad171f, 0 0 20px #e50914; }
+            50% { text-shadow: 0 0 20px #dd0f1a90, 0 0 30px #e50914; }
+            100% { text-shadow: 0 0 10px #e50914, 0 0 20px #e50914; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo glow">SelvaFlix</div>
+        <ul class="nav-links">
+            <li><a onclick="showSection('home')">Home</a></li>
+            <li><a onclick="showSection('movies')">Movies</a></li>
+            <li><a onclick="showSection('tv-shows')">TV Shows</a></li>
+            <li><a onclick="showSection('my-list')">My List</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero active">
+        <h1>Only Action Entertainment Maamey</h1>
+        <p>Experience the future of streaming powered by intelligent technology.</p>
+        <button class="btn-primary">Start Watching</button>
+    </section>
+    
+    <!-- Movies Section -->
+    <section id="movies">
+        <h2>Movies</h2>
+
+            <div class="movie">
+                <img src="image copy 2.png" alt="movie 7">
+                <h3>Doctor doom's day</h3>
+            </div>
+            <div class="movie">
+                <div class="content-item" onclick="playContent('https://youtu.be/ShsFxGV_thk?si=JPyIYHf0fAXkW8Vz','leo')"></div>
+                <img src="image.png" alt="Movie 1">
+                <h3>Leo</h3>
+            </div>
+            <div class="movie">
+                <div class="content-item" onclick="playContent('https://youtu.be/ShsFxGV_thk?si=JPyIYHf0fAXkW8Vz','leo')"></div>
+                <img src="image copy 6.png" alt="Movie 2">
+                <h3>Vikram 3</h3>
+            </div>
+                <div class="movie">
+                    <div class="content-item" onclick="playContent('https://youtu.be/ShsFxGV_thk?si=JPyIYHf0fAXkW8Vz','leo')"></div>
+                    <img src="image copy.png" alt="Goat">
+                    <h3>Goat</h3>
+                </div>
+                    <div class="movie">
+                        <div class="content-item" onclick="playContent('https://youtu.be/ShsFxGV_thk?si=JPyIYHf0fAXkW8Vz','leo')"></div>
+                        <img src="image copy 4.png" alt="Rolex">
+                        <h3>Rolex(The rule of drugs)</h3>
+                    </div>
+                        <div class="movie">
+                            <div class="content-item" onclick="playContent('https://youtu.be/ShsFxGV_thk?si=JPyIYHf0fAXkW8Vz','leo')"></div>
+                            <img src="image copy 5.png" alt="Kaithi 2 beginning of (LCU)">
+                            <h3>Kaithi 2 beginning of (LCU)</h3>
+                        </div>
+                            <div class="movie">
+                                <div class="content-item" onclick="playContent('https://youtu.be/ShsFxGV_thk?si=JPyIYHf0fAXkW8Vz','leo')"></div>
+                                <img src="image copy 3.png" alt="Benz">
+                                <h3>Benz</h3>
+                            </div>
+                        
+                        
+    </section>
+
+    <!-- TV Shows Section -->
+    <section id="tv-shows">
+        <h2>TV Shows</h2>
+        <div class="movie-grid">
+            <div class="movie">
+                <img src="image copy 7.png" alt="A2D Roast">
+                <h3>A2D Roast</h3>
+            </div>
+            <div class="movie-grid">
+                <div class="movie">
+                    <img src="image copy 8.png" alt="Tech boss last chapter">
+                    <h3>Tech boss last chapter</h3>
+                </div>
+                <div class="movie-grid">
+                    <div class="movie">
+                        <img src="image copy 9.png" alt="TTF-Polimer">
+                        <h3>TTF-Polimer</h3>
+                    </div>
+        </div>
+    </section>
+
+    <!-- My List Section -->
+    <section id="my-list">
+        <h2>My List</h2>
+        <div class="movie-grid">
+            <div class="movie">
+                <img src="image copy 3.png" alt="Benz">
+                <h3>Benz</h3>
+            </div>
+            <div class="movie-grid">
+                <div class="movie">
+                    <img src="image copy 2.png" alt="movie 7">
+                    <h3>Doctor doom's day</h3>
+                </div>
+        </div>
+    </section>
+
+    <script>
+        // Function to display selected section
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
